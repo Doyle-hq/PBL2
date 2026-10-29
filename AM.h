@@ -15,7 +15,7 @@ public:
 
     void readFile();
 
-    bool login(const string& username, const string& pass, Account& loginAccount);
+    bool login(const string& NV_ID, const string& pass, Account& loginAccount);
 };
 
 #endif
