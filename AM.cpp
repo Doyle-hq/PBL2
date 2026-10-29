@@ -34,14 +34,16 @@ void AccountManagement::readFile() {
     cout << "Doc danh sach tai khoan hoan tat.\n";
 }
 
-bool AccountManagement::login(
-    const string& NV_ID,
-    const string& pass,
-    Account& loginAccount
-) {
-    for (int i = 0; i < listAccount.size(); i++) {
-        if (listAccount[i].getNV_ID() == NV_ID && listAccount[i].getPass() == pass) {
+bool AccountManagement::login(const string& NV_ID, const string& pass, Account& loginAccount){
+    // Kiem tra tai khoan Admin
+    if (NV_ID == "Admin" && pass == "quanly123") {
+        loginAccount = Account("quanly123", "manager", "Admin");
+        return true;
+    }
 
+    // Kiem tra tai khoan nhan vien trong file
+    for (int i = 0; i < listAccount.size(); i++) {
+        if (listAccount[i].getNV_ID() == NV_ID && listAccount[i].getPass() == pass){
             loginAccount = listAccount[i];
             return true;
         }
