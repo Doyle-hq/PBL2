@@ -1,6 +1,4 @@
-
 #include "Account.h"
-
 
 Account::Account() {
     pass = "";
