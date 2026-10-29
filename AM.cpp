@@ -15,19 +15,18 @@ void AccountManagement::readFile() {
 
     listAccount.clear();
 
-    string username;
     string pass;
     string role;
     string NV_ID;
 
-    while (getline(file, username)) {
-        if (!getline(file, pass) || !getline(file, role) || !getline(file, NV_ID)) {
+    while (getline(file, pass)) {
+        if (!getline(file, role) || !getline(file, NV_ID)) {
 
             cout << "Du lieu tai khoan khong day du!\n";
             break;
         }
 
-        Account tk(username, pass, role, NV_ID);
+        Account tk(pass, role, NV_ID);
         listAccount.push_back(tk);
     }
 
@@ -35,9 +34,13 @@ void AccountManagement::readFile() {
     cout << "Doc danh sach tai khoan hoan tat.\n";
 }
 
-bool AccountManagement::login(const string& username, const string& pass, Account& loginAccount) {
+bool AccountManagement::login(
+    const string& NV_ID,
+    const string& pass,
+    Account& loginAccount
+) {
     for (int i = 0; i < listAccount.size(); i++) {
-        if (listAccount[i].getUserName() == username && listAccount[i].getPass() == pass) {
+        if (listAccount[i].getNV_ID() == NV_ID && listAccount[i].getPass() == pass) {
 
             loginAccount = listAccount[i];
             return true;
