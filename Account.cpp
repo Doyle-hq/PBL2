@@ -3,22 +3,15 @@
 
 
 Account::Account() {
-    username = "";
     pass = "";
     vale = "";
     NV_ID = "";
 }
 
-Account::Account(string username, string pass, string vale, string NV_ID) {
-    this->username = username;
+Account::Account(string pass, string vale, string NV_ID) {
     this->pass = pass;
     this->vale = vale;
     this->NV_ID = NV_ID;
-}
-
-
-string Account::getUserName() {
-    return username;
 }
 
 string Account::getPass() {
@@ -31,10 +24,6 @@ string Account::getVale() {
 
 string Account::getNV_ID() {
     return NV_ID;
-}
-
-void Account::setUserName(string username) {
-    this->username = username;
 }
 
 void Account::setPass(string pass) {
