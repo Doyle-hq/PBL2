@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 
@@ -9,10 +8,6 @@
 using namespace std;
 
 int main() {
-    // Tai khoan quan ly duoc khai bao truc tiep trong code
-    const string MANAGER_USERNAME = "admin";
-    const string MANAGER_PASSWORD = "quanly123";
-
     Manage manage;
     AccountManagement accountManagement;
 
@@ -22,50 +17,43 @@ int main() {
 
     cout << "\n========== DANG NHAP ==========\n";
 
-    string username;
+    string NV_ID;
     string pass;
 
-    cout << "Ten dang nhap: ";
-    getline(cin, username);
+    cout << "Ma dang nhap: ";
+    getline(cin, NV_ID);
 
     cout << "Mat khau: ";
     getline(cin, pass);
 
-    // Kiem tra tai khoan quan ly truoc
-    if (username == MANAGER_USERNAME &&
-        pass == MANAGER_PASSWORD) {
+    // Kiem tra thong tin dang nhap
+    Account loginAccount;
 
-        cout << "\nDang nhap voi quyen quan ly thanh cong!\n";
-
-        manage.menu();
-
-        // Luu lai du lieu sau khi quan ly thoat menu
-        manage.savefile();
-
-        cout << "Da luu du lieu va ket thuc chuong trinh.\n";
+    if (!accountManagement.login(NV_ID, pass, loginAccount)) {
+        cout << "\nMa dang nhap hoac mat khau khong dung!\n";
         return 0;
     }
 
-    // Neu khong phai quan ly, kiem tra tai khoan nhan vien
-    Account loginAccount;
+    // Phan quyen theo vai tro tai khoan
+    string role = loginAccount.getVale();
 
-    if (accountManagement.login(username, pass, loginAccount)) {
-        string role = loginAccount.getVale();
+    if (role == "manager") {
+        cout << "\nDang nhap voi quyen quan ly thanh cong!\n";
 
-        if (role == "NhanVien" || role == "nhanvien" || role == "employee") {
+        // Hien thi menu quan ly
+        manage.menu();
 
-            cout << "\nDang nhap voi quyen nhan vien thanh cong!\n";
+        // Luu du lieu sau khi quan ly thoat menu
+        manage.savefile();
 
-            // Nhan vien chi xem duoc thong tin theo NV_ID
-            manage.displayEmployeeByID(loginAccount.getNV_ID());
-        }
-        else {
-            cout << "Tai khoan khong co quyen truy cap!\n";
-            return 0;
-        }
-    }
-    else {
-        cout << "Ten dang nhap hoac mat khau khong dung!\n";
+        cout << "\nDa luu du lieu va ket thuc chuong trinh.\n";
+    } else if (role == "NhanVien" || role == "nhanvien" || role == "employee") {
+        cout << "\nDang nhap voi quyen nhan vien thanh cong!\n";
+
+        // Nhan vien chi xem thong tin cua minh
+        manage.displayEmployeeByID(loginAccount.getNV_ID());
+    } else {
+        cout << "\nTai khoan khong co quyen truy cap!\n";
         return 0;
     }
 
