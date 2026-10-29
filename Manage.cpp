@@ -7,7 +7,6 @@ Manage::Manage() : Person(){
 Manage::Manage(string fullName, string dateOfBirth, string gender, string phone, string address) : Person(fullName, dateOfBirth, gender, phone, address) {
 }
 
-
 void Manage::addEmployee() {
     string NV_ID;
     string fullName;
@@ -19,51 +18,110 @@ void Manage::addEmployee() {
     string ngayVaoLam;
     string status;
 
-    cout << "Nhập mã nhân viên: ";
-    getline(cin, NV_ID);
+    cout << "Nhap ma phong ban: ";
+    getline(cin, PHG_ID);
+
+    if (PHG_ID.empty()) {
+        cout << "Ma phong ban khong duoc de trong!\n";
+        return;
+    }
+
+    // Tim so thu tu tiep theo trong phong ban
+    int nextNumber = 1;
+
     for (int i = 0; i < listEmployee.size(); i++) {
-        if (listEmployee[i].getNV_ID() == NV_ID) {
-            cout << "Ma nhan vien da ton tai!\n";
-            return;
+        string currentID = listEmployee[i].getNV_ID();
+
+        if (listEmployee[i].getPHG_ID() != PHG_ID){
+            continue;
+        }
+
+        if (currentID.length() <= PHG_ID.length()) {
+            continue;
+        }
+
+        if (currentID.substr(0, PHG_ID.length()) != PHG_ID) {
+            continue;
+        }
+
+        string suffix = currentID.substr(PHG_ID.length());
+        bool valid = true;
+
+        for (int j = 0; j < suffix.length(); j++) {
+            if (suffix[j] < '0' || suffix[j] > '9') {
+                valid = false;
+                break;
+            }
+        }
+
+        if (valid && !suffix.empty()) {
+            try {
+                int number = stoi(suffix);
+
+                if (number >= nextNumber) {
+                    nextNumber = number + 1;
+                }
+            }
+            catch (...) {
+                cout << "Ma nhan vien trong danh sach khong hop le!\n";
+                return;
+            }
         }
     }
 
-    cout << "Nhập họ tên: ";
+    string suffix = to_string(nextNumber);
+
+    while (suffix.length() < 3) {
+        suffix = "0" + suffix;
+    }
+
+    NV_ID = PHG_ID + suffix;
+
+    cout << "Ma nhan vien duoc tao: " << NV_ID << endl;
+
+    cout << "Nhap ho ten: ";
     getline(cin, fullName);
 
-    cout << "Nhập ngày sinh: ";
+    if (fullName.empty()) {
+        cout << "Ho ten khong duoc de trong!\n";
+        return;
+    }
+
+    cout << "Nhap ngay sinh: ";
     getline(cin, dateOfBirth);
 
-    cout << "Nhập giới tính: ";
+    cout << "Nhap gioi tinh: ";
     getline(cin, gender);
 
-    cout << "Nhập số điện thoại: ";
+    cout << "Nhap so dien thoai: ";
     getline(cin, phone);
 
-    cout << "Nhập địa chỉ: ";
+    cout << "Nhap dia chi: ";
     getline(cin, address);
 
-    cout << "Nhập mã phòng ban: ";
-    getline(cin, PHG_ID);
-
-    cout << "Nhập ngày vào làm: ";
+    cout << "Nhap ngay vao lam: ";
     getline(cin, ngayVaoLam);
 
-    cout << "Nhập trạng thái: ";
+    cout << "Nhap trang thai: ";
     getline(cin, status);
+
+    if (status.empty()) {
+        status = "Dang lam";
+    }
 
     Employee nv(NV_ID, fullName, dateOfBirth, gender, phone, address, PHG_ID, ngayVaoLam, status);
 
     listEmployee.push_back(nv);
 
-    cout << "Thêm nhân viên thành công" << endl;
+    cout << "Them nhan vien thanh cong!\n";
 }
+
 
 
 void Manage::removeEmployee() {
     string NV_ID;
 
-    cout << "Nhập mã nhân viên cần xoá: ";
+    cout << "Nhap ma nhan vien can xoa: ";
     getline(cin, NV_ID);
 
     // Tim nhan vien theo ma
@@ -73,36 +131,37 @@ void Manage::removeEmployee() {
             // Xoa nhan vien tai vi tri i
             listEmployee.erase(listEmployee.begin() + i);
 
-            cout << "Xoá nhân viên thành công" << endl;
+            cout << "Xoa nhan vien thanh cong!\n";
             return;
         }
     }
 
-    cout << "Không tìm thấy nhân viên!!!" << endl;
+    cout << "Khong tim thay ma nhan vien!\n";
 }
 
 void Manage::updateEmployee() {
     string NV_ID;
 
-    cout << "Nhập mã nhân viên cần sửa: ";
+    cout << "Nhap ma nhan vien can sua: ";
     getline(cin, NV_ID);
 
     for (int i = 0; i < listEmployee.size(); i++) {
         if (listEmployee[i].getNV_ID() == NV_ID) {
-            cout << "Tìm thấy nhân viên" << endl;
+            cout << "Tim thay nhan vien!\n";
 
             int choose;
-            cout << "===== MENU SỬA NHÂN VIÊN =====" << endl;
-            cout << "1. Họ tên" << endl;
-            cout << "2. Ngày sinh" << endl;
-            cout << "3. Giới tính"<< endl;
-            cout << "4. Số điện thoại" << endl;
-            cout << "5. Địa chỉ" << endl;
-            cout << "6. Mã phòng ban" << endl;
-            cout << "7. Ngày vào làm" << endl;
-            cout << "8. Trạng thái" << endl;
-            cout << "0. Huỷ sửa" << endl;
-            cout << "Nhập lựa chọn: ";
+
+            cout << endl << "===== MENU SUA NHAN VIEN =====" << endl;
+            cout << "1. Ho ten\n";
+            cout << "2. Ngay sinh\n";
+            cout << "3. Gioi tinh\n";
+            cout << "4. So dien thoai\n";
+            cout << "5. Dia chi\n";
+            cout << "6. Ma phong ban\n";
+            cout << "7. Ngay vao lam\n";
+            cout << "8. Trang thai\n";
+            cout << "0. Huy sua\n";
+            cout << "Nhap lua chon: ";
             cin >> choose;
             cin.ignore();
 
@@ -110,58 +169,58 @@ void Manage::updateEmployee() {
                 case 1: {
                     string fullName;
 
-                    cout << "Nhập họ tên mới: ";
+                    cout << "Nhap ho ten moi: ";
                     getline(cin, fullName);
 
                     if (fullName == "") {
-                        cout << "Họ tên không được để trống!" << endl;
+                        cout << "Ho ten khong duoc de trong!\n";
                         break;
                     }
 
                     listEmployee[i].setFullName(fullName);
 
-                    cout << "Cập nhật họ tên thành công!" << endl;
+                    cout << "Cap nhat ho ten thanh cong!\n";
                     break;
                 }
 
                 case 2: {
                     string dateOfBirth;
 
-                    cout << "Nhập ngày sinh mới: ";
+                    cout << "Nhap ngay sinh moi: ";
                     getline(cin, dateOfBirth);
 
                     if (dateOfBirth == "") {
-                        cout << "Ngày sinh không được để trống!" << endl;
+                        cout << "Ngay sinh khong duoc de trong!\n";
                         break;
                     }
 
                     listEmployee[i].setDateOfBirth(dateOfBirth);
 
-                    cout << "Cập nhật ngày sinh thành công!" << endl;
+                    cout << "Cap nhat ngay sinh thanh cong!\n";
                     break;
                 }
 
                 case 3: {
                     string gender;
 
-                    cout << "Nhập giới tính mới: ";
+                    cout << "Nhap gioi tinh moi: ";
                     getline(cin, gender);
 
                     if (gender == "") {
-                        cout << "Giới tính không được để trống!" << endl;
+                        cout << "Gioi tinh khong duoc de trong!\n";
                         break;
                     }
 
                     listEmployee[i].setGender(gender);
 
-                    cout << "Cập nhật giới tính thành công!" << endl;
+                    cout << "Cap nhat gioi tinh thanh cong!\n";
                     break;
                 }
 
                 case 4: {
                     string phone;
 
-                    cout << "Nhập số điện thoại mới: ";
+                    cout << "Nhap so dien thoai moi: ";
                     getline(cin, phone);
 
                     if (phone == "") {
@@ -199,13 +258,13 @@ void Manage::updateEmployee() {
                     getline(cin, PHG_ID);
 
                     if (PHG_ID == "") {
-                        cout << "Ma phong ban khong duoc de trong!\n";
+                        cout << "Ma phong ban khong duoc de trong!" << endl;
                         break;
                     }
 
                     listEmployee[i].setPHG_ID(PHG_ID);
 
-                    cout << "Cap nhat ma phong ban thanh cong!\n";
+                    cout << "Cap nhat ma phong ban thanh cong!" << endl;
                     break;
                 }
 
@@ -216,13 +275,13 @@ void Manage::updateEmployee() {
                     getline(cin, ngayVaoLam);
 
                     if (ngayVaoLam == "") {
-                        cout << "Ngay vao lam khong duoc de trong!\n";
+                        cout << "Ngay vao lam khong duoc de trong!" << endl;
                         break;
                     }
 
                     listEmployee[i].setNgayVaoLam(ngayVaoLam);
 
-                    cout << "Cap nhat ngay vao lam thanh cong!\n";
+                    cout << "Cap nhat ngay vao lam thanh cong!" << endl;
                     break;
                 }
 
@@ -233,29 +292,29 @@ void Manage::updateEmployee() {
                     getline(cin, trangThai);
 
                     if (trangThai == "") {
-                        cout << "Trang thai khong duoc de trong!\n";
+                        cout << "Trang thai khong duoc de trong!" << endl;
                         break;
                     }
 
                     listEmployee[i].setStatus(trangThai);
 
-                    cout << "Cap nhat trang thai thanh cong!\n";
+                    cout << "Cap nhat trang thai thanh cong!" << endl;
                     break;
                 }
 
                 case 0:
-                    cout << "Da huy sua thong tin!\n";
+                    cout << "Da huy sua thong tin!" << endl;
                     break;
 
                 default:
-                    cout << "Lua chon khong hop le!\n";
+                    cout << "Lua chon khong hop le!" << endl;
             }
 
             return;
         }
     }
 
-    cout << "Khong tim thay ma nhan vien!\n";
+    cout << "Khong tim thay ma nhan vien!" << endl;
 }
 
 void Manage::seachID() {
@@ -428,14 +487,7 @@ void Manage::readfile() {
     string status;
 
     while (getline(file, NV_ID)) {
-        if (!getline(file, fullName) ||
-            !getline(file, dateOfBirth) ||
-            !getline(file, gender) ||
-            !getline(file, phone) ||
-            !getline(file, address) ||
-            !getline(file, PHG_ID) ||
-            !getline(file, ngayVaoLam) ||
-            !getline(file, status)) {
+        if (!getline(file, fullName) || !getline(file, dateOfBirth) || !getline(file, gender) || !getline(file, phone) || !getline(file, address) || !getline(file, PHG_ID) || !getline(file, ngayVaoLam) || !getline(file, status)) {
 
             cout << "Du lieu trong file khong day du!\n";
             break;
@@ -468,74 +520,159 @@ void Manage::displayList() {
 
 void Manage::menu() {
     int choose;
+    int subChoose;
 
     do {
-        cout << "\n========== QUAN LY NHAN VIEN ==========\n";
-        cout << "1. Them nhan vien\n";
-        cout << "2. Xoa nhan vien\n";
-        cout << "3. Sua thong tin nhan vien\n";
-        cout << "4. Tim nhan vien theo ma\n";
-        cout << "5. Tim nhan vien theo ten\n";
-        cout << "6. Sap xep theo ma nhan vien\n";
-        cout << "7. Sap xep theo ho ten\n";
-        cout << "8. Sap xep theo phong ban\n";
-        cout << "9. Loc nhan vien theo phong ban\n";
-        cout << "10. Hien thi danh sach nhan vien\n";
-        cout << "11. Luu danh sach vao file\n";
-        cout << "12. Doc danh sach tu file\n";
+        cout << "========== QUAN LY NHAN VIEN ==========" << endl;
+        cout << "1. Tra cuu va hien thi" << endl;
+        cout << "2. Cap nhap danh sach" << endl;
+        cout << "3. Sap xep danh sach" << endl;
+        cout << "4. Xu ly tap tin" << endl;
         cout << "0. Thoat\n";
         cout << "Nhap lua chon: ";
 
         cin >> choose;
-        cin.ignore();
+        cin.ignore();        
 
         switch (choose) {
             case 1:
-                addEmployee();
+                do{
+                    cout << endl << "========== TRA CUU & HIEN THI ==========" << endl;
+                    cout << "1. Tra cuu theo ma" << endl;
+                    cout << "2. Tra cuu theo ten" << endl;
+                    cout << "3. Tra cuu theo phong ban" << endl;
+                    cout << "4. Hien thi danh sach nhan vien" << endl;
+                    cout << "0. Thoat" << endl;
+                    cout << "Nhap lua chon: ";
+                    cin >> subChoose;
+                    cin.ignore();
+
+                    switch (subChoose)
+                    {
+                    case 1:
+                        seachID();
+                        break;
+
+                    case 2:
+                        seachName();
+                        break;
+
+                    case 3:
+                        filterPHG_ID();
+                        break;
+
+                    case 4:
+                        displayList();
+                        break;
+
+                    case 0:
+                    cout << "Da thoat chuong trinh!" << endl;
+                    break;
+
+                    default:
+                        cout << "Lua chon khong hop le!" << endl;
+                    }
+                }while (subChoose != 0);
                 break;
 
             case 2:
-                removeEmployee();
+                do{
+                    cout << endl << "========== CAP NHAP DANH SACH ==========" << endl;
+                    cout << "1. Them nhan vien" << endl;
+                    cout << "2. Xoa nhan vien" << endl;
+                    cout << "3. Cap nhap" << endl;
+                    cout << "0. Thoat" << endl;
+                    cout << "Nhap lua chon: ";
+                    cin >> subChoose;
+                    cin.ignore();
+
+                    switch (subChoose)
+                    {
+                    case 1:
+                        addEmployee();
+                        break;
+
+                    case 2:
+                        removeEmployee();
+                        break;
+
+                    case 3:
+                        updateEmployee();
+                        break;
+
+                    case 0:
+                        cout << "Da thoat chuong trinh!" << endl;
+                        break;
+
+                    default:
+                        cout << "Lua chon khong hop le!" << endl;
+                    }
+                }while (subChoose != 0);
                 break;
 
             case 3:
-                updateEmployee();
+                do{
+                    cout << endl << "========== SAP XEP DANH SACH ==========" << endl;
+                    cout << "1. Sap xep theo ma" << endl;
+                    cout << "2. Sap xep theo ten" << endl;
+                    cout << "3. Sap xep theo phong" << endl;
+                    cout << "0. Thoat" << endl;
+                    cout << "Nhap lua chon: ";
+                    cin >> subChoose;
+                    cin.ignore();
+
+                    switch (subChoose)
+                    {
+                    case 1:
+                        arrangeID();
+                        break;
+
+                    case 2:
+                        arrangeName();
+                        break;
+
+                    case 3:
+                        arrangePHG_ID();
+                        break;
+
+                    case 0:
+                        cout << "Da thoat chuong trinh!" << endl;
+                        break;
+
+                    default:
+                        cout << "Lua chon khong hop le!" << endl;
+                    }
+                }while (subChoose != 0);
                 break;
 
             case 4:
-                seachID();
-                break;
+                do{
+                    cout << endl << "========== XU LY TAP TIN ==========" << endl;
+                    cout << "1. Luu file" << endl;
+                    cout << "2. Doc file" << endl;
+                    cout << "0. Thoat" << endl;
+                    cout << "Nhap lua chon: ";
+                    cin >> subChoose;
+                    cin.ignore();
 
-            case 5:
-                seachName();
-                break;
+                    switch (subChoose)
+                    {
+                    case 1:
+                        savefile();
+                        break;
 
-            case 6:
-                arrangeID();
-                break;
+                    case 2:
+                        readfile();
+                        break;
 
-            case 7:
-                arrangeName();
-                break;
+                    case 0:
+                        cout << "Da thoat chuong trinh!" << endl;
+                        break;
 
-            case 8:
-                arrangePHG_ID();
-                break;
-
-            case 9:
-                filterPHG_ID();
-                break;
-
-            case 10:
-                displayList();
-                break;
-
-            case 11:
-                savefile();
-                break;
-
-            case 12:
-                readfile();
+                    default:
+                        cout << "Lua chon khong hop le!" << endl;
+                    }
+                }while (subChoose != 0);
                 break;
 
             case 0:
@@ -547,4 +684,18 @@ void Manage::menu() {
         }
 
     } while (choose != 0);
+}
+
+
+bool Manage::displayEmployeeByID(string NV_ID) {
+    for (int i = 0; i < listEmployee.size(); i++) {
+        if (listEmployee[i].getNV_ID() == NV_ID) {
+            cout << "\n===== THONG TIN CA NHAN =====\n";
+            listEmployee[i].displayInfo();
+            return true;
+        }
+    }
+
+    cout << "Khong tim thay thong tin nhan vien!\n";
+    return false;
 }
