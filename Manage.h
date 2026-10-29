@@ -40,6 +40,8 @@ public:
     void readfile();
 
     void displayList();
+    bool displayEmployeeByID(string NV_ID);
+
     void menu();
 };
 
