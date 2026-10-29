@@ -1,15 +1,15 @@
 #include "AM.h"
 #include <fstream>
+#include <iostream>
 
 AccountManagement::AccountManagement() {
 }
 
-
 void AccountManagement::readFile() {
-    ifstream file("Account.txt"); //mo file de doc
+    ifstream file("Account.txt");
 
     if (!file.is_open()) {
-        cout << "Không mở được file tài khoản" << endl;
+        cout << "Khong mo duoc file tai khoan!\n";
         return;
     }
 
@@ -17,47 +17,32 @@ void AccountManagement::readFile() {
 
     string username;
     string pass;
-    string vale;
+    string role;
     string NV_ID;
 
     while (getline(file, username)) {
-        if (!getline(file, pass) || !getline(file, vale) || !getline(file, NV_ID)){
+        if (!getline(file, pass) || !getline(file, role) || !getline(file, NV_ID)) {
 
-            cout << "Dữ liệu tài khoản không đầy đủ" << endl;
+            cout << "Du lieu tai khoan khong day du!\n";
             break;
         }
 
-        Account tk(username, pass, vale, NV_ID);
-
+        Account tk(username, pass, role, NV_ID);
         listAccount.push_back(tk);
     }
 
     file.close();
-
-    cout << "Doc danh sach tai khoan thanh cong!\n";
+    cout << "Doc danh sach tai khoan hoan tat.\n";
 }
 
-
-bool AccountManagement::login(Account& loginAccount) {
-    string username;
-    string pass;
-
-    cout << "Nhap ten dang nhap: ";
-    getline(cin, username);
-
-    cout << "Nhap mat khau: ";
-    getline(cin, pass);
-
+bool AccountManagement::login(const string& username, const string& pass, Account& loginAccount) {
     for (int i = 0; i < listAccount.size(); i++) {
         if (listAccount[i].getUserName() == username && listAccount[i].getPass() == pass) {
 
             loginAccount = listAccount[i];
-
-            cout << "Dang nhap thanh cong!\n";
             return true;
         }
     }
 
-    cout << "Ten dang nhap hoac mat khau khong dung!\n";
     return false;
 }
