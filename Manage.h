@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-#include <vector>
-
 class Manage : public Person{
 private:
     vector<Employee> listEmployee;
