@@ -7,7 +7,7 @@ Employee::Employee() : Person(){
     status = "Dang lam";
 }
 
-Employee::Employee(string NV_ID, string fullName, string dateOfBirth, string gender, string phone, string address, string PHG_ID, string ngayVaoLam, string status){
+Employee::Employee(string NV_ID, string fullName, string dateOfBirth, string gender, string phone, string address, string PHG_ID, string ngayVaoLam, string status) : Person(fullName, dateOfBirth, gender, phone, address){
     this->NV_ID = NV_ID;
     this->PHG_ID = PHG_ID;
     this->ngayVaoLam = ngayVaoLam;
@@ -46,9 +46,14 @@ Employee::Employee(string NV_ID, string fullName, string dateOfBirth, string gen
         this->status = status;
     }
 
-    void Employee::displayInfo(){
-        cout << "Ma nhan vien: " << NV_ID << endl;
-        cout << "Ma phong ban: " << PHG_ID << endl;
-        cout << "Ngay vao lam: " << ngayVaoLam << endl;
-        cout << "Trang thai: " << status << endl;
-    }
+void Employee::displayInfo() {
+    cout << "Ma nhan vien: " << NV_ID << endl;
+    cout << "Ho ten: " << fullName << endl;
+    cout << "Ngay sinh: " << dateOfBirth << endl;
+    cout << "Gioi tinh: " << gender << endl;
+    cout << "So dien thoai: " << phone << endl;
+    cout << "Dia chi: " << address << endl;
+    cout << "Ma phong ban: " << PHG_ID << endl;
+    cout << "Ngay vao lam: " << ngayVaoLam << endl;
+    cout << "Trang thai: " << status << endl;
+}
