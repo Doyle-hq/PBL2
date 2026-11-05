@@ -723,7 +723,11 @@ void Manage::menu() {
                         break;
 
                     case 2:
-                        readfile();
+                        char c;
+                        cout << "Thay doi chua luu se mat. Tiep tuc? (Y/N): ";
+                        cin >> c;
+                        cin.ignore();
+                        if (c == 'Y' || c == 'y') readfile();
                         break;
 
                     case 0:
