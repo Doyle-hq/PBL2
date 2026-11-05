@@ -1,6 +1,7 @@
 #include "AM.h"
 #include <fstream>
 #include <iostream>
+using namespace std;
 
 AccountManagement::AccountManagement() {
 }
