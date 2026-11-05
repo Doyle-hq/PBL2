@@ -1,4 +1,3 @@
-
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
@@ -9,19 +8,19 @@ using namespace std;
 class Account{
 private:
     string pass;
-    string vale;
+    string role;
     string NV_ID;
 
 public:
     Account();
-    Account(string pass, string vale, string NV_ID);
+    Account(string pass, string role, string NV_ID);
 
     string getPass();
-    string getVale();
+    string getRole();
     string getNV_ID();
 
     void setPass(string pass);
-    void setVale(string vale);
+    void setRole(string role);
     void setNV_ID(string NV_ID);
 };
 
