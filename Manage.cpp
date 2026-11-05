@@ -52,46 +52,24 @@ void Manage::addEmployee() {
     string genderCode;
 
     if (gender == "Nu") {
-        genderCode = "01";
+        genderCode = "02";
     }
     else {
-        genderCode = "02";
+        genderCode = "01";
     }
 
     // Tim so thu tu tiep theo trong phong ban
     int nextNumber = 11;
 
     for (int i = 0; i < listEmployee.size(); i++) {
-        string currentID = listEmployee[i].getNV_ID();
+        string id = listEmployee[i].getNV_ID();
 
-        string prefix = PHG_ID + genderCode;
+        if (id.length() != 10) continue;
 
-        if (currentID.length() != 10) {
-            continue;
-        }
+        string suf = id.substr(5);
+        if (suf.find_first_not_of("0123456789") != string::npos) continue;
 
-        if (currentID.substr(0, 5) != prefix) {
-            continue;
-        }
-
-        string suffix = currentID.substr(5, 5);
-
-        bool valid = true;
-
-        for (int j = 0; j < suffix.length(); j++) {
-            if (suffix[j] < '0' || suffix[j] > '9') {
-                valid = false;
-                break;
-            }
-        }
-
-        if (valid) {
-            int number = stoi(suffix);
-
-            if (number >= nextNumber) {
-                nextNumber = number + 1;
-            }
-        }
+        nextNumber = max(nextNumber, stoi(suf) + 1);
     }
 
     string suffix = to_string(nextNumber);
@@ -565,6 +543,7 @@ void Manage::readfile() {
     file.close();
 
     if (docThanhCong) {
+        listEmployee = tempList;
         cout << "Doc danh sach nhan vien thanh cong!" << endl;
     }
 }
