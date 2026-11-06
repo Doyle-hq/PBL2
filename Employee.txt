@@ -42,7 +42,7 @@ Nam
 Can Tho
 101
 2025-10-25
-Dang nghi phep
+Dang lam
 1010100016
 Vu Ngoc Kien
 1999-09-09
@@ -150,7 +150,7 @@ Nu
 Ha Noi
 101
 2025-09-05
-Dang nghi phep
+Da nghi viec
 1010200028
 Dang Kieu Hoa
 1994-01-25
@@ -258,7 +258,7 @@ Nam
 Hue
 102
 2026-01-18
-Dang nghi phep
+Dang lam
 1020100040
 Hoang Quang Huy
 1994-05-05
@@ -357,7 +357,7 @@ Nu
 Can Tho
 102
 2026-03-22
-Dang nghi phep
+Dang lam
 1020200051
 Vu Thu Diep
 1994-08-21
@@ -389,7 +389,7 @@ Dang lam
 Bui Bich Huong
 2001-02-27
 Nu
-0902000054
+090200054
 Hue
 102
 2026-04-15
@@ -501,7 +501,7 @@ Nam
 Da Nang
 103
 2025-12-25
-Dang nghi phep
+Da nghi viec
 1030100067
 Vo Xuan Lam
 1995-09-30
@@ -618,7 +618,7 @@ Nu
 Hue
 103
 2025-09-10
-Dang nghi phep
+Dang lam
 1030200080
 Do My Lan
 1992-04-15
@@ -726,7 +726,7 @@ Nam
 Da Nang
 104
 2026-04-12
-Dang nghi phep
+Dang lam
 1040100092
 Vo Xuan Lam
 1991-07-22
@@ -825,7 +825,7 @@ Nu
 Ha Noi
 104
 2026-02-20
-Dang nghi phep
+Da nghi viec
 1040200103
 Dang Kieu Hoa
 1992-09-06
