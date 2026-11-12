@@ -1,5 +1,6 @@
 #include "AccountRepository.h"
 #include <fstream>
+#include <sstream>
 
 AccountRepository::AccountRepository(string fileName) {
     this->fileName = fileName;
@@ -13,13 +14,18 @@ vector<Account> AccountRepository::getAll() {
         return accounts;
     }
 
-    string pass, role, NV_ID, locked;
+    string line;
 
-    while (getline(file, pass)) {
-        if (!getline(file, role) ||
-            !getline(file, NV_ID) ||
-            !getline(file, locked)) {
-            break;
+    while (getline(file, line)) {
+        stringstream ss(line);
+
+        string pass, role, NV_ID, locked;
+
+        if (!getline(ss, pass, ',') ||
+            !getline(ss, role, ',') ||
+            !getline(ss, NV_ID, ',') ||
+            !getline(ss, locked)) {
+            continue;
         }
 
         bool isLocked = (locked == "1");
@@ -41,10 +47,10 @@ bool AccountRepository::saveAll(const vector<Account>& accounts) {
     }
 
     for (const Account& account : accounts) {
-        file << account.getPass() << endl;
-        file << account.getRole() << endl;
-        file << account.getNV_ID() << endl;
-        file << (account.getIsLocked() ? "1" : "0") << endl;
+        file << account.getPass() << ","
+             << account.getRole() << ","
+             << account.getNV_ID() << ","
+             << (account.getIsLocked() ? "1" : "0") << endl;
     }
 
     file.close();
