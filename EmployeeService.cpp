@@ -3,6 +3,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <cctype>
 
 EmployeeService::EmployeeService() {}
 
@@ -87,14 +88,21 @@ vector<Employee> EmployeeService::getAllEmployees() {
     return employeeRepository.getAll();
 }
 
-bool EmployeeService::addEmployee(Employee& employee, string& message) {
+bool EmployeeService::prepareEmployee(
+    Employee& employee, string& message) {
+
     if (!validateEmployee(employee, message)) {
         return false;
     }
 
-    employee.setNV_ID(
-        generateEmployeeID(employee.getPHG_ID(), employee.getGender())
-    );
+    if (employee.getNV_ID().empty()) {
+        employee.setNV_ID(
+            generateEmployeeID(
+                employee.getPHG_ID(),
+                employee.getGender()
+            )
+        );
+    }
 
     if (employee.getNgayVaoLam().empty()) {
         employee.setNgayVaoLam(getCurrentDate());
@@ -102,6 +110,17 @@ bool EmployeeService::addEmployee(Employee& employee, string& message) {
 
     if (employee.getStatus().empty()) {
         employee.setStatus("Dang lam");
+    }
+
+    message = "Du lieu nhan vien hop le!";
+    return true;
+}
+
+bool EmployeeService::addEmployee(
+    Employee& employee, string& message) {
+
+    if (!prepareEmployee(employee, message)) {
+        return false;
     }
 
     Account account(
@@ -151,6 +170,41 @@ bool EmployeeService::updateEmployee(
     }
 
     message = "Cap nhat nhan vien thanh cong!";
+    return true;
+}
+
+bool EmployeeService::updateMyContactInfo(const string& NV_ID, const string& phone, const string& address, string& message){
+    Employee employee;
+
+    if (!employeeRepository.findByID(NV_ID, employee)) {
+        message = "Khong tim thay nhan vien!";
+        return false;
+    }
+
+    if (employee.getStatus() == "Da nghi viec") {
+        message = "Nhan vien da nghi viec!";
+        return false;
+    }
+
+    if (phone.empty()) {
+        message = "So dien thoai khong duoc de trong!";
+        return false;
+    }
+
+    if (address.empty()) {
+        message = "Dia chi khong duoc de trong!";
+        return false;
+    }
+
+    employee.setPhone(phone);
+    employee.setAddress(address);
+
+    if (!employeeRepository.update(employee)) {
+        message = "Cap nhat ho so that bai!";
+        return false;
+    }
+
+    message = "Cap nhat ho so ca nhan thanh cong!";
     return true;
 }
 
