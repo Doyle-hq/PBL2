@@ -21,8 +21,10 @@ public:
 
     vector<Employee> getAllEmployees();
 
+    bool prepareEmployee(Employee& employee, string& message);
     bool addEmployee(Employee& employee, string& message);
     bool updateEmployee(const Employee& employee, string& message);
+    bool updateMyContactInfo(const string& NV_ID, const string& phone, const string& address, string& message);
     bool deleteEmployee(string NV_ID, string& message);
 
     bool findByID(string NV_ID, Employee& employee);
