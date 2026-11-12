@@ -1,5 +1,6 @@
 #include "EmployeeRepository.h"
 #include <fstream>
+#include <sstream>
 
 EmployeeRepository::EmployeeRepository(string fileName) {
     this->fileName = fileName;
@@ -13,19 +14,24 @@ vector<Employee> EmployeeRepository::getAll() {
         return employees;
     }
 
-    string NV_ID, fullName, dateOfBirth, gender;
-    string phone, address, PHG_ID, ngayVaoLam, status;
+    string line;
 
-    while (getline(file, NV_ID)) {
-        if (!getline(file, fullName) ||
-            !getline(file, dateOfBirth) ||
-            !getline(file, gender) ||
-            !getline(file, phone) ||
-            !getline(file, address) ||
-            !getline(file, PHG_ID) ||
-            !getline(file, ngayVaoLam) ||
-            !getline(file, status)) {
-            break;
+    while (getline(file, line)) {
+        stringstream ss(line);
+
+        string NV_ID, fullName, dateOfBirth, gender;
+        string phone, address, PHG_ID, ngayVaoLam, status;
+
+        if (!getline(ss, NV_ID, ',') ||
+            !getline(ss, fullName, ',') ||
+            !getline(ss, dateOfBirth, ',') ||
+            !getline(ss, gender, ',') ||
+            !getline(ss, phone, ',') ||
+            !getline(ss, address, ',') ||
+            !getline(ss, PHG_ID, ',') ||
+            !getline(ss, ngayVaoLam, ',') ||
+            !getline(ss, status)) {
+            continue;
         }
 
         employees.push_back(Employee(
@@ -46,15 +52,15 @@ bool EmployeeRepository::saveAll(const vector<Employee>& employees) {
     }
 
     for (const Employee& employee : employees) {
-        file << employee.getNV_ID() << endl;
-        file << employee.getFullName() << endl;
-        file << employee.getDateOfBirth() << endl;
-        file << employee.getGender() << endl;
-        file << employee.getPhone() << endl;
-        file << employee.getAddress() << endl;
-        file << employee.getPHG_ID() << endl;
-        file << employee.getNgayVaoLam() << endl;
-        file << employee.getStatus() << endl;
+        file << employee.getNV_ID() << ","
+             << employee.getFullName() << ","
+             << employee.getDateOfBirth() << ","
+             << employee.getGender() << ","
+             << employee.getPhone() << ","
+             << employee.getAddress() << ","
+             << employee.getPHG_ID() << ","
+             << employee.getNgayVaoLam() << ","
+             << employee.getStatus() << endl;
     }
 
     file.close();
