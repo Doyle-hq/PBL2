@@ -1,13 +1,21 @@
-#include <iostream>
 #include "Presentation/Menu.h"
-
-using namespace std;
+#include "raylib.h"
 
 int main() {
+    // Khoi tao cua so
+    InitWindow(1200, 750, "PBL2 - Employee Management System");
+
+    // Gioi han toc do khung hinh
+    SetTargetFPS(60);
+
+    // Khoi tao Menu
     Menu menu;
+
+    // Chay ung dung
     menu.run();
 
-    cout << "\nChuong trinh ket thuc!\n";
+    // Dong cua so
+    CloseWindow();
 
     return 0;
 }
