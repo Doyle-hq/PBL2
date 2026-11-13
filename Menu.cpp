@@ -4,11 +4,10 @@
 #include <algorithm>
 #include <cctype>
 #include <vector>
-
 using namespace std;
 
 // Font giao dien
-static Font UI_FONT = { 0 };
+static Font UI_FONT = {0};
 
 // Tao danh sach ky tu can hien thi,
 // bao gom cac ky tu tieng Viet co dau.
@@ -35,9 +34,7 @@ static vector<int> createVietnameseCodepoints() {
     DrawTextEx(UI_FONT, text, Vector2{(float)(x), (float)(y)}, \
     (float)(size), 1.0f, color)
 
-// =====================================================
 // MAU SAC
-// =====================================================
 
 static const Color PRIMARY = {35, 105, 180, 255};
 static const Color PRIMARY_DARK = {25, 75, 135, 255};
@@ -49,10 +46,7 @@ static const Color BORDER_COLOR = {210, 220, 232, 255};
 static const Color SUCCESS_COLOR = {35, 150, 95, 255};
 static const Color ERROR_COLOR = {210, 65, 65, 255};
 
-// =====================================================
 // KHOI TAO
-// =====================================================
-
 Menu::Menu() {
     currentScreen = LOGIN;
 
@@ -77,25 +71,18 @@ Menu::Menu() {
     
 }
 
-// =====================================================
 // HAM HO TRO
-// =====================================================
-
 bool Menu::isMouseInside(Rectangle rect) {
     return CheckCollisionPointRec(GetMousePosition(), rect);
 }
 
-bool Menu::button(
-    const char* text,
-    Rectangle rect,
-    Color color
-) {
+bool Menu::button(const char* text, Rectangle rect, Color color){
     bool hovered = isMouseInside(rect);
 
     Color drawColor = color;
 
-    if (hovered) {
-        drawColor = {
+    if(hovered){
+        drawColor ={
             (unsigned char)(color.r * 0.85f),
             (unsigned char)(color.g * 0.85f),
             (unsigned char)(color.b * 0.85f),
@@ -105,31 +92,14 @@ bool Menu::button(
 
     DrawRectangleRounded(rect, 0.15f, 8, drawColor);
 
-    int textWidth = (int)MeasureTextEx(
-    UI_FONT,
-    text,
-    19,
-    1.0f
-    ).x;
+    int textWidth = (int)MeasureTextEx(UI_FONT, text, 19, 1.0f).x;
 
-    DrawText(
-        text,
-        rect.x + (rect.width - textWidth) / 2,
-        rect.y + (rect.height - 19) / 2,
-        19,
-        WHITE
-    );
+    DrawText(text, rect.x + (rect.width - textWidth) / 2, rect.y + (rect.height - 19) / 2, 19, WHITE);
 
     return hovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 }
 
-void Menu::drawTextLabel(
-    const string& text,
-    int x,
-    int y,
-    int fontSize,
-    Color color
-) {
+void Menu::drawTextLabel(const string& text, int x, int y, int fontSize, Color color){
     DrawText(text.c_str(), x, y, fontSize, color);
 }
 
@@ -138,18 +108,14 @@ void Menu::setMessage(const string& text, bool isError) {
     isMessageError = isError;
 }
 
-void Menu::openConfirm(
-    const string& title,
-    const string& content,
-    int action
-) {
+void Menu::openConfirm(const string& title, const string& content, int action){
     confirmTitle = title;
     confirmContent = content;
     confirmAction = action;
     showConfirm = true;
 }
 
-void Menu::resetEmployeeForm() {
+void Menu::resetEmployeeForm(){
     inputNV_ID = "";
     inputName = "";
     inputDOB = "";
@@ -164,22 +130,13 @@ void Menu::loadEmployees() {
     employees = employeeService.getAllEmployees();
 }
 
-// =====================================================
 // O NHAP LIEU
-// =====================================================
-
-bool Menu::inputBox(
-    const char* label,
-    Rectangle rect,
-    string& value,
-    int inputID,
-    bool password
-) {
+bool Menu::inputBox(const char* label, Rectangle rect, string& value, int inputID, bool password) {
     DrawText(label, rect.x, rect.y - 30, 18, TEXT_COLOR);
 
     bool hovered = isMouseInside(rect);
 
-    if (hovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    if(hovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         activeInput = inputID;
     }
 
